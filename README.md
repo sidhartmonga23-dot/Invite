@@ -65,6 +65,27 @@
             max-height: 85vh;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: #ff1744 #f0f0f0;
+        }
+
+        /* Webkit browsers scrollbar styling */
+        .container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .container::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background: #ff1744;
+            border-radius: 10px;
+        }
+
+        .container::-webkit-scrollbar-thumb:hover {
+            background: #ff5252;
         }
 
         @keyframes slideIn {
@@ -207,6 +228,8 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            filter: brightness(1.1) contrast(1.1) saturate(1.15);
+            -webkit-filter: brightness(1.1) contrast(1.1) saturate(1.15);
         }
 
         .heart-deco {
@@ -360,6 +383,7 @@
             text-align: center;
             animation: pop 0.5s ease-out;
             word-wrap: break-word;
+            line-height: 1.6;
         }
 
         @keyframes pop {
@@ -378,6 +402,10 @@
 
         .yes-response {
             color: #ff1744;
+        }
+
+        .no-response {
+            color: #764ba2;
         }
 
         .confetti {
@@ -518,6 +546,120 @@
             animation: heart-wiggle 2.5s ease-in-out infinite reverse;
         }
 
+        /* Confirmation Screen Specific Styles */
+        .confirmation-wrapper {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .celebration-emoji {
+            font-size: clamp(60px, 20vw, 120px);
+            animation: celebration-bounce 0.6s ease-in-out infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes celebration-bounce {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-20px) rotate(-5deg);
+            }
+            50% {
+                transform: translateY(-40px) rotate(5deg);
+            }
+            75% {
+                transform: translateY(-20px) rotate(-5deg);
+            }
+        }
+
+        .confirmation-title {
+            font-size: clamp(1.8em, 8vw, 2.8em);
+            color: #ff1744;
+            margin-bottom: 15px;
+            animation: fadeInDown 0.8s ease-out;
+            font-weight: bold;
+        }
+
+        .confirmation-message {
+            font-size: clamp(1em, 4vw, 1.2em);
+            color: #333;
+            line-height: 1.8;
+            margin: 20px 0;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .love-line {
+            color: #ff1744;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .confirmation-details {
+            background: linear-gradient(135deg, #ffe5e5 0%, #fff0f0 100%);
+            padding: clamp(15px, 4vw, 25px);
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 2px solid #ff1744;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .countdown {
+            font-size: clamp(1.1em, 4vw, 1.3em);
+            color: #667eea;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .heart-chain {
+            font-size: 2em;
+            letter-spacing: 10px;
+            margin: 20px 0;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .music-info {
+            color: #667eea;
+            font-size: clamp(0.9em, 3.5vw, 1em);
+            font-weight: bold;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+
+        .music-icon {
+            font-size: 1.3em;
+            animation: music-bounce 0.6s ease-in-out infinite;
+        }
+
+        @keyframes music-bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .final-button {
+            background: linear-gradient(135deg, #ff1744, #ff5252);
+            color: white;
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+            width: 100%;
+            margin-top: 25px;
+        }
+
+        .final-button:hover {
+            transform: scale(1.05);
+        }
+
+        .final-button:active {
+            transform: scale(0.98);
+        }
+
         /* Disable animations on low-power devices */
         @media (prefers-reduced-motion: reduce) {
             * {
@@ -572,6 +714,11 @@
             .heart-deco {
                 font-size: clamp(1em, 4vw, 1.5em);
             }
+
+            .heart-chain {
+                letter-spacing: 5px;
+                font-size: 1.5em;
+            }
         }
 
         @media (max-width: 360px) {
@@ -586,6 +733,11 @@
 
             .emoji {
                 margin-right: 4px;
+            }
+
+            .heart-chain {
+                letter-spacing: 3px;
+                font-size: 1.2em;
             }
         }
 
@@ -609,6 +761,11 @@
             h1 {
                 margin-bottom: 5px;
             }
+
+            .celebration-emoji {
+                font-size: 80px;
+                margin: 10px 0;
+            }
         }
     </style>
 </head>
@@ -617,6 +774,12 @@
     <div class="heart-jump" id="heart">💖</div>
     <audio id="boinkSound" preload="auto">
         <source src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Background music for confirmation screen -->
+    <audio id="backgroundMusic" preload="auto" loop volume="0.5">
+        <source src="" type="audio/mpeg">
+        Your browser does not support the audio element.
     </audio>
 
     <div class="container">
@@ -633,7 +796,7 @@
 
                 <!-- Photo Collage with Decorations -->
                 <div class="photo-collage">
-                    <img src="https://i.ibb.co/nNwyz1dp/image.jpg" alt="Special moment">
+                    <img src="https://i.ibb.co/nNwyz1dp/image.jpg" alt="Special moment" loading="eager">
                     <!-- Heart Decorations -->
                     <div class="heart-deco heart-deco-1">💕</div>
                     <div class="heart-deco heart-deco-2">💖</div>
@@ -702,12 +865,154 @@ Chotu mera baccha hai, baccha bada shaitan hai, shaitani iski door bhagao, isko 
             <div class="info-box">
                 <p><span class="emoji">💝</span><strong>What to Expect:</strong> Lots of hugus, kissus, puuchi and less pitti</p>
             </div>
+
+            <div class="buttons">
+                <button class="next-btn" onclick="showSection('screen5')">View Confirmation →</button>
+            </div>
+            
             <div class="page-heart heart-bottom-left">💖</div>
             <div class="page-heart heart-bottom-right">💗</div>
+        </div>
+
+        <!-- SCREEN 5: CONFIRMATION (Fun Final Message) -->
+        <div id="screen5" class="content-section">
+            <div class="page-heart heart-top-left">💕</div>
+            <div class="page-heart heart-top-right">💖</div>
+            <div class="confirmation-wrapper">
+                <div class="celebration-emoji">🎉</div>
+                
+                <h2 class="confirmation-title">IT'S OFFICIAL! 💕</h2>
+                
+                <p class="confirmation-message">
+                    You've officially become my Valentine!
+                    <br>
+                    <span class="love-line">Best decision ever! 🥰</span>
+                </p>
+
+                <!-- Music Playing Indicator -->
+                <div class="music-info">
+                    <span class="music-icon">🎵</span>
+                    <span>Now Playing: Boyfriend - Karan Aujla</span>
+                </div>
+
+                <div class="confirmation-details">
+                    <p style="font-size: clamp(1em, 4vw, 1.1em); color: #333; margin-bottom: 15px;">
+                        Mark your calendar because something magical is about to happen...
+                    </p>
+                    
+                    <div class="countdown" id="countdown">
+                        Loading countdown...
+                    </div>
+
+                    <p style="font-size: clamp(0.9em, 3.5vw, 1em); color: #667eea; font-weight: bold; margin: 15px 0;">
+                        Until the most special day of the year! 💝
+                    </p>
+                </div>
+
+                <div class="heart-chain">💕 💖 💗</div>
+
+                <p class="confirmation-message" style="font-size: clamp(0.9em, 3.5vw, 1.05em); margin-top: 20px;">
+                    Get ready for:
+                    <br>
+                    🎂 Sweet moments
+                    <br>
+                    🤗 Unlimited hugs
+                    <br>
+                    😘 Lots of kisses
+                    <br>
+                    🎁 Surprises galore
+                    <br>
+                    💕 Pure love & laughter
+                </p>
+
+                <p class="confirmation-message" style="font-size: clamp(0.95em, 4vw, 1.15em); margin-top: 25px; color: #ff1744; font-weight: bold;">
+                    See you in Hugguland! 🏰✨
+                </p>
+
+                <button class="final-button" onclick="location.reload()">Start Over 🔄</button>
+            </div>
+            
+            <div class="page-heart heart-bottom-left">💗</div>
+            <div class="page-heart heart-bottom-right">💓</div>
         </div>
     </div>
 
     <script>
+        // Array of quirky rejection messages
+        const quirkyNoMessages = [
+            "Nope, but I'll just keep asking! 😜",
+            "Not today, but I have all of February! 🗓️",
+            "Oh no, I'm broken now... *sad noises* 💔",
+            "Wow, big ouch! But I'm persistent! 🦟",
+            "You can run but you can't hide! 🏃‍♂️💨",
+            "Is it me? Jk, it's definitely you... just kidding! 😂",
+            "This button is haunted now! 👻",
+            "Bold of you to assume I'll give up! 💪",
+            "I'm lactose intolerant but this rejection still HITS! 🥛",
+            "Plot twist: you're already my Valentine! 🎬",
+            "Nope, but nice try avoiding the inevitable! 😏",
+            "This button is faster than you! ⚡",
+            "Uno reverse card activated! ✨",
+            "You're only making me like you more! 😤💕"
+        ];
+
+        let rejectionCount = 0;
+
+        // Extract audio from YouTube using yt-dlp API
+        async function getYouTubeAudio() {
+            const youtubeUrl = 'https://youtu.be/5GCfYLguTIs?si=FXgMzO8Soo7Nfhur';
+            const videoId = '5GCfYLguTIs';
+            
+            try {
+                // Using invidious instance for audio extraction (privacy-friendly YouTube)
+                const audioUrl = `https://inv.riverside.rocks/api/v1/videos/${videoId}?fields=formatStreams`;
+                
+                const response = await fetch(audioUrl);
+                const data = await response.json();
+                
+                if (data.formatStreams && data.formatStreams.length > 0) {
+                    // Find audio stream
+                    const audioStream = data.formatStreams.find(stream => 
+                        stream.mimeType && stream.mimeType.includes('audio')
+                    );
+                    
+                    if (audioStream) {
+                        const audio = document.getElementById('backgroundMusic');
+                        audio.src = audioStream.url;
+                        return true;
+                    }
+                }
+            } catch (error) {
+                console.log('Error fetching audio from Invidious, trying alternative method...');
+                // Fallback: use a direct mp3 source if available
+                const audio = document.getElementById('backgroundMusic');
+                // You can replace this with a direct download link to the mp3 if you have one
+                audio.src = 'https://yt-dl-api.herokuapp.com/?url=https://youtu.be/5GCfYLguTIs&format=mp3';
+                return false;
+            }
+        }
+
+        // Calculate countdown to Valentine's Day
+        function updateCountdown() {
+            const today = new Date();
+            const valentinesDay = new Date(2026, 1, 14); // February 14, 2026
+            
+            // If Valentine's Day has passed, show next year
+            if (today > valentinesDay) {
+                valentinesDay.setFullYear(valentinesDay.getFullYear() + 1);
+            }
+            
+            const timeRemaining = valentinesDay - today;
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            
+            const countdownElement = document.getElementById('countdown');
+            if (countdownElement) {
+                countdownElement.textContent = `${days} days, ${hours} hours, ${minutes} minutes`;
+            }
+        }
+
         // Detect touch device
         const isTouchDevice = () => {
             return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
@@ -766,6 +1071,7 @@ Chotu mera baccha hai, baccha bada shaitan hai, shaitani iski door bhagao, isko 
             
             const noBtn = document.getElementById('noBtn');
             const heart = document.getElementById('heart');
+            const response = document.getElementById('response');
             
             // Get viewport dimensions for safer repositioning
             const vw = window.innerWidth;
@@ -786,6 +1092,14 @@ Chotu mera baccha hai, baccha bada shaitan hai, shaitani iski door bhagao, isko 
             heart.classList.remove('active');
             void heart.offsetWidth;
             heart.classList.add('active');
+            
+            // Display quirky message
+            const quirkyMessage = quirkyNoMessages[rejectionCount % quirkyNoMessages.length];
+            response.textContent = quirkyMessage;
+            response.className = 'response no-response';
+            response.style.display = 'block';
+            
+            rejectionCount++;
             
             setTimeout(() => {
                 heart.classList.remove('active');
@@ -809,7 +1123,48 @@ Chotu mera baccha hai, baccha bada shaitan hai, shaitani iski door bhagao, isko 
             const response = document.getElementById('response');
             response.style.display = 'none';
             
+            // Reset rejection counter when moving away from proposal
+            if (sectionId !== 'screen3') {
+                rejectionCount = 0;
+            }
+
+            // Auto-play music when showing confirmation screen
+            if (sectionId === 'screen5') {
+                updateCountdown();
+                playBackgroundMusic();
+            } else {
+                // Stop music when leaving confirmation screen
+                stopBackgroundMusic();
+            }
+            
             document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Play background music
+        function playBackgroundMusic() {
+            const audio = document.getElementById('backgroundMusic');
+            
+            if (audio.src) {
+                audio.play().catch(err => {
+                    console.log('Music playback failed:', err);
+                });
+            } else {
+                // Try to load the audio first
+                getYouTubeAudio().then(success => {
+                    if (success) {
+                        audio.play().catch(err => {
+                            console.log('Music playback failed:', err);
+                        });
+                    }
+                });
+            }
+        }
+
+        // Stop background music
+        function stopBackgroundMusic() {
+            const audio = document.getElementById('backgroundMusic');
+            audio.pause();
+            audio.currentTime = 0;
         }
 
         // Handle Yes response
